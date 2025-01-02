@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback UI</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #eafaf8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .feedback-container {
+      background-color: #f0fdfa;
+      border-radius: 15px;
+      padding: 30px;
+      width: 400px;
+      text-align: center;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .feedback-container h1 {
+      font-size: 24px;
+      color: #047857;
+      margin-bottom: 20px;
+    }
+
+    .feedback-options {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+
+    .feedback-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .feedback-option img {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 8px;
+    }
+
+    .feedback-option span {
+      font-size: 16px;
+      color: #047857;
+    }
+
+    .feedback-option.selected {
+      transform: scale(1.2);
+    }
+
+    .send-button {
+      background-color: #047857;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .send-button:hover {
+      background-color: #065f46;
+    }
+
+    .thank-you-message {
+      display: none;
+    }
+
+    .thank-you-message.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="feedback-container">
+    <h1>Feedback UI</h1>
+    <div class="feedback-options">
+      <div class="feedback-option" data-feedback="Unhappy">
+        <img src="https://img.icons8.com/emoji/96/sad-but-relieved-face.png" alt="Unhappy">
+        <span>Unhappy</span>
+      </div>
+      <div class="feedback-option" data-feedback="Neutral">
+        <img src="https://img.icons8.com/emoji/96/neutral-face.png" alt="Neutral">
+        <span>Neutral</span>
+      </div>
+      <div class="feedback-option" data-feedback="Satisfied">
+        <img src="https://img.icons8.com/emoji/96/smiling-face.png" alt="Satisfied">
+        <span>Satisfied</span>
+      </div>
+    </div>
+    <button class="send-button">Send Review</button>
+    <div class="thank-you-message">
+      <h1>Thank You!</h1>
+      <p>Your feedback: <span id="selected-feedback"></span></p>
+      <P>We'll use your feedback to improve our customer support.</P>
+    </div>
+  </div>
+
+  <script>
+    const feedbackOptions = document.querySelectorAll('.feedback-option');
+    const sendButton = document.querySelector('.send-button');
+    const thankYouMessage = document.querySelector('.thank-you-message');
+    const selectedFeedbackDisplay = document.getElementById('selected-feedback');
+
+    let selectedFeedback = '';
+
+    feedbackOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        feedbackOptions.forEach(opt => opt.classList.remove('selected'));
+        option.classList.add('selected');
+        selectedFeedback = option.getAttribute('data-feedback');
+      });
+    });
+
+    sendButton.addEventListener('click', () => {
+      if (selectedFeedback === '') {
+        alert('Please select a feedback option!');
+        return;
+      }
+      document.querySelector('.feedback-options').style.display = 'none';
+      sendButton.style.display = 'none';
+      thankYouMessage.classList.add('active');
+      selectedFeedbackDisplay.textContent = selectedFeedback;
+    });
+  </script>
+</body>
+</html>
